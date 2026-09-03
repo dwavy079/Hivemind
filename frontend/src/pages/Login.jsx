@@ -27,6 +27,17 @@ export default function Login() {
   return (
     <div className="auth-shell">
       <div className="auth-card">
+        <div className="auth-logo">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M12 2 3 7v10l9 5 9-5V7l-9-5Z"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinejoin="round"
+            />
+            <path d="M12 12 3 7M12 12l9-5M12 12v10" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+          </svg>
+        </div>
         <h1>Welcome back</h1>
         <p className="subtitle">Log in to your FileShare account</p>
         <form onSubmit={onSubmit}>

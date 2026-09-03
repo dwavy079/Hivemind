@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { api } from '../api/client'
 import { useAuth } from '../context/AuthContext'
-import { formatBytes, formatDate } from '../utils/format'
+import { formatBytes, formatDate, initials } from '../utils/format'
 import NewFolderModal from '../components/NewFolderModal'
 import ShareModal from '../components/ShareModal'
 import VersionsModal from '../components/VersionsModal'
@@ -103,9 +103,22 @@ export default function Dashboard() {
   return (
     <div className="app-shell" onDragOver={(e) => e.preventDefault()} onDrop={onDrop}>
       <div className="topbar">
-        <div className="brand">📁 FileShare</div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <span style={{ fontSize: 13, color: 'var(--text-muted)' }}>{session?.fullName}</span>
+        <div className="brand">
+          <span className="brand-mark">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M12 2 3 7v10l9 5 9-5V7l-9-5Z"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </span>
+          FileShare
+        </div>
+        <div className="user-chip">
+          <span style={{ fontSize: 13.5, color: 'var(--text-muted)', fontWeight: 500 }}>{session?.fullName}</span>
+          <span className="avatar">{initials(session?.fullName)}</span>
           <button className="btn" onClick={onLogout}>Log out</button>
         </div>
       </div>
@@ -117,17 +130,15 @@ export default function Dashboard() {
           </button>
           <input ref={fileInputRef} type="file" multiple style={{ display: 'none' }} onChange={onFileInputChange} />
           <button className="btn" onClick={() => setShowNewFolder(true)}>New folder</button>
-          <span style={{ fontSize: 12, color: 'var(--text-muted)', marginLeft: 8 }}>
-            or drag &amp; drop files anywhere on this page
-          </span>
+          <span className="hint">or drag &amp; drop files anywhere on this page</span>
         </div>
 
         {contents && (
           <div className="breadcrumb">
             <button onClick={() => openFolder(null)}>My Files</button>
             {contents.breadcrumb.map((b) => (
-              <span key={b.id}>
-                {' / '}
+              <span key={b.id} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <span className="sep">›</span>
                 <button onClick={() => openFolder(b.id)}>{b.name}</button>
               </span>
             ))}
@@ -139,7 +150,19 @@ export default function Dashboard() {
         {loading && <p className="subtitle">Loading…</p>}
 
         {!loading && contents && contents.items.length === 0 && (
-          <div className="empty-state">Nothing here yet. Upload a file or create a folder to get started.</div>
+          <div className="empty-state">
+            <div className="empty-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+            <p>Nothing here yet. Upload a file or create a folder to get started.</p>
+          </div>
         )}
 
         {!loading && contents && contents.items.length > 0 && (
@@ -160,8 +183,29 @@ export default function Dashboard() {
                       className="file-name-btn"
                       onClick={() => (item.type === 'FOLDER' ? openFolder(item.id) : downloadFile(item))}
                     >
-                      <span>{item.type === 'FOLDER' ? '📁' : '📄'}</span>
-                      {item.name}
+                      <span className={`file-icon ${item.type === 'FOLDER' ? 'folder' : 'file'}`}>
+                        {item.type === 'FOLDER' ? (
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                              d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"
+                              stroke="currentColor"
+                              strokeWidth="1.7"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        ) : (
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                              d="M6 2h8l4 4v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1Z"
+                              stroke="currentColor"
+                              strokeWidth="1.7"
+                              strokeLinejoin="round"
+                            />
+                            <path d="M14 2v4a1 1 0 0 0 1 1h4" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" />
+                          </svg>
+                        )}
+                      </span>
+                      <span className="label">{item.name}</span>
                       {item.type === 'FILE' && item.versionCount > 1 && (
                         <span className="badge">v{item.versionCount}</span>
                       )}

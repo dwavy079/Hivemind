@@ -11,3 +11,11 @@ export function formatDate(isoString) {
   if (!isoString) return '—'
   return new Date(isoString).toLocaleString()
 }
+
+export function initials(fullName) {
+  if (!fullName) return '?'
+  const parts = fullName.trim().split(/\s+/)
+  const first = parts[0]?.[0] || ''
+  const last = parts.length > 1 ? parts[parts.length - 1][0] : ''
+  return (first + last).toUpperCase()
+}
