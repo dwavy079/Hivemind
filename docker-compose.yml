@@ -1,0 +1,17 @@
+# Optional: a local PostgreSQL instance for running the backend with SPRING_PROFILES_ACTIVE=prod.
+# The "dev" profile (default) uses an embedded H2 file database instead, so you don't need this
+# just to try the app locally.
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: filesharing
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - filesharing_pg_data:/var/lib/postgresql/data
+
+volumes:
+  filesharing_pg_data:
