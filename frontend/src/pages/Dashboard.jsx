@@ -6,6 +6,7 @@ import { formatBytes, formatDate, initials } from '../utils/format'
 import NewFolderModal from '../components/NewFolderModal'
 import ShareModal from '../components/ShareModal'
 import VersionsModal from '../components/VersionsModal'
+import Logo from '../components/Logo'
 
 export default function Dashboard() {
   const { session, logout } = useAuth()
@@ -105,16 +106,9 @@ export default function Dashboard() {
       <div className="topbar">
         <div className="brand">
           <span className="brand-mark">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M12 2 3 7v10l9 5 9-5V7l-9-5Z"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <Logo size={15} />
           </span>
-          FileShare
+          HiveMind
         </div>
         <div className="user-chip">
           <span style={{ fontSize: 13.5, color: 'var(--text-muted)', fontWeight: 500 }}>{session?.fullName}</span>

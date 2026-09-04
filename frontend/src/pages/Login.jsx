@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import Logo from '../components/Logo'
 
 export default function Login() {
   const { login } = useAuth()
@@ -27,19 +28,11 @@ export default function Login() {
   return (
     <div className="auth-shell">
       <div className="auth-card">
-        <div className="auth-logo">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M12 2 3 7v10l9 5 9-5V7l-9-5Z"
-              stroke="currentColor"
-              strokeWidth="1.6"
-              strokeLinejoin="round"
-            />
-            <path d="M12 12 3 7M12 12l9-5M12 12v10" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-          </svg>
-        </div>
+        <Link to="/" className="auth-logo" style={{ display: 'inline-flex' }}>
+          <Logo size={20} />
+        </Link>
         <h1>Welcome back</h1>
-        <p className="subtitle">Log in to your FileShare account</p>
+        <p className="subtitle">Log in to your HiveMind account</p>
         <form onSubmit={onSubmit}>
           <div className="field">
             <label htmlFor="email">Email</label>

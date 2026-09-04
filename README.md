@@ -1,4 +1,4 @@
-# FileShare
+# HiveMind
 
 A file-sharing app: upload files, organize them into folders, keep every previous version, and hand out shareable download links. Backend is Spring Boot (Java), frontend is React (Vite), and file content lives in AWS S3.
 

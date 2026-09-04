@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { useAuth } from './context/AuthContext'
+import Landing from './pages/Landing'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
@@ -15,6 +16,7 @@ export default function App() {
 
   return (
     <Routes>
+      <Route path="/" element={<Landing />} />
       <Route path="/login" element={session ? <Navigate to="/app" replace /> : <Login />} />
       <Route path="/register" element={session ? <Navigate to="/app" replace /> : <Register />} />
       <Route path="/s/:token" element={<SharedFile />} />
@@ -26,7 +28,7 @@ export default function App() {
           </PrivateRoute>
         }
       />
-      <Route path="*" element={<Navigate to={session ? '/app' : '/login'} replace />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )
 }
