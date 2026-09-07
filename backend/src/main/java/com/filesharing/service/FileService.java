@@ -7,6 +7,7 @@ import com.filesharing.model.FileVersion;
 import com.filesharing.model.User;
 import com.filesharing.repository.FileItemRepository;
 import com.filesharing.repository.FileVersionRepository;
+import com.filesharing.repository.ShareLinkRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +24,7 @@ public class FileService {
 
     private final FileItemRepository fileItemRepository;
     private final FileVersionRepository fileVersionRepository;
+    private final ShareLinkRepository shareLinkRepository;
     private final S3StorageService s3StorageService;
 
     // ---------- Browsing ----------
@@ -195,6 +197,7 @@ public class FileService {
                 s3StorageService.delete(v.getS3Key());
             }
         }
+        shareLinkRepository.deleteAll(shareLinkRepository.findByFileItemOrderByCreatedAtDesc(item));
         fileItemRepository.delete(item);
     }
 
